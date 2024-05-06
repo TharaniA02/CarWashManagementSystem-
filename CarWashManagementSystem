@@ -1,0 +1,84 @@
+import java.util.Scanner;
+
+class Car {
+    private String plateNumber;
+    private String ownerName;
+
+    public Car(String plateNumber, String ownerName) {
+        this.plateNumber = plateNumber;
+        this.ownerName = ownerName;
+    }
+
+    public String getPlateNumber() {
+        return plateNumber;
+    }
+
+    public String getOwnerName() {
+        return ownerName;
+    }
+}
+
+class CarWash {
+    private static final int MAX_CAPACITY = 10;
+    private Car[] cars;
+    private int numCars;
+
+    public CarWash() {
+        cars = new Car[MAX_CAPACITY];
+        numCars = 0;
+    }
+
+    public void addCar(Car car) {
+        if (numCars < MAX_CAPACITY) {
+            cars[numCars++] = car;
+            System.out.println("Car added to the wash queue.");
+        } else {
+            System.out.println("Car wash is full. Please come back later.");
+        }
+    }
+
+    public void washCar() {
+        if (numCars > 0) {
+            Car car = cars[--numCars];
+            System.out.println("Washing car: Plate Number - " + car.getPlateNumber() + ", Owner - " + car.getOwnerName());
+        } else {
+            System.out.println("No cars to wash.");
+        }
+    }
+}
+
+public class CarWashManagementSystem {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        CarWash carWash = new CarWash();
+
+        while (true) {
+            System.out.println("\nMenu:");
+            System.out.println("1. Add car to wash queue");
+            System.out.println("2. Wash next car");
+            System.out.println("3. Exit");
+            System.out.print("Enter your choice: ");
+            int choice = scanner.nextInt();
+            scanner.nextLine(); // Consume newline
+
+            switch (choice) {
+                case 1:
+                    System.out.print("Enter car plate number: ");
+                    String plateNumber = scanner.nextLine();
+                    System.out.print("Enter owner name: ");
+                    String ownerName = scanner.nextLine();
+                    Car car = new Car(plateNumber, ownerName);
+                    carWash.addCar(car);
+                    break;
+                case 2:
+                    carWash.washCar();
+                    break;
+                case 3:
+                    System.out.println("Exiting...");
+                    return;
+                default:
+                    System.out.println("Invalid choice. Please try again.");
+            }
+        }
+    }
+}
